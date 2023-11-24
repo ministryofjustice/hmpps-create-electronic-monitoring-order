@@ -1,6 +1,6 @@
 generic-service:
   nameOverride: hmpps-create-electronic-monitoring-order
-  productId: "UNASSIGNED" # productId for the product that this belongs too, i.e. DPS001, see README.md for details
+  productId: "HMPPS529"
 
   replicaCount: 4
 
