@@ -1,10 +1,10 @@
 info.app:
-  name: HMPPS Template Kotlin
+  name: Hmpps Create Electronic Monitoring Order
   version: 1.0
 
 spring:
   application:
-    name: hmpps-template-kotlin
+    name: hmpps-create-electronic-monitoring-order
   codec:
     max-in-memory-size: 10MB
 
