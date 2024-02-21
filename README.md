@@ -30,3 +30,18 @@
   - Tasks/application/bootRun
 
 This should run the webserver locally. You should be able to access it at `localhost:8080`.
+
+## Accessing the deployed webservice
+
+Once changes to this repo have been reviewed and merged into main, the service will be automatically redeployed.
+
+The status of the redeployment can be viewed in [CircleCI](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-create-electronic-monitoring-order).
+
+The service is deployed to this url:  
+https://hmpps-create-electronic-monitoring-order-dev.hmpps.service.justice.gov.uk/
+
+The health of the service can be viewed here:  
+https://hmpps-create-electronic-monitoring-order-dev.hmpps.service.justice.gov.uk/health
+
+When accessing these endpoints you may receive a 403 error. This is due to an issue with the GlobalProtect VPN provided on MoJ computers.  To resolve this error, open GlobalProtect and refresh your VPN connection. You may need to do this a couple of times.  
+This issue is documented in MoJ Slack.
