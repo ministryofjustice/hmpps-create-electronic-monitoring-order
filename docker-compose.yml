@@ -15,7 +15,7 @@ services:
 
   localstack:
     container_name: "localstack-cemo"
-    image: localstack/localstack:latest
+    image: localstack/localstack
     ports:
       - "127.0.0.1:4566:4566"            # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559"  # external services port range
@@ -24,10 +24,11 @@ services:
       - MAIN_CONTAINER_NAME=localstack-cemo
       - DEBUG=1
       - SERVICES=s3
-      - DATA_DIR=/tmp/localstack/data
+      - DATA_DIR=/tmp/localstack/data/
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./localstack/init/ready/init.sh:/etc/localstack/init/ready.d/init.sh"
 
 networks:
   hmpps:
