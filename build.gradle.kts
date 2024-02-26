@@ -9,6 +9,12 @@ configurations {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+  // AWS modules
+  implementation("software.amazon.awssdk:s3:2.24.6")
+
+  // junit modules
+  testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
 }
 
 kotlin {
