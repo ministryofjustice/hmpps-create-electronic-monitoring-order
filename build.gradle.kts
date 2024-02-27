@@ -12,6 +12,7 @@ dependencies {
 
   // AWS modules
   implementation("software.amazon.awssdk:s3:2.24.6")
+  implementation("software.amazon.awssdk:sqs:2.3.2")
 
   // junit modules
   testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
@@ -19,6 +20,9 @@ dependencies {
 
 kotlin {
   jvmToolchain(21)
+}
+repositories {
+  mavenCentral()
 }
 
 tasks {
