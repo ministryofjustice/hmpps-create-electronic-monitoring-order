@@ -10,6 +10,9 @@ configurations {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+  // postgres modules
+  implementation("org.postgresql:postgresql:42.7.2")
+
   // AWS modules
   implementation("software.amazon.awssdk:s3:2.24.6")
   implementation("software.amazon.awssdk:sqs:2.3.2")
