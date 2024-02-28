@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration.aws
+package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration
 
 
 import org.junit.jupiter.api.Test
