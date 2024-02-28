@@ -1,13 +1,11 @@
 package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration
 
-
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.HeadBucketRequest
 import java.net.URI
-
 
 class S3IntegrationTests {
   private val testS3Client: S3Client = S3Client.builder()
@@ -22,6 +20,8 @@ class S3IntegrationTests {
       .bucket("cemo-test-s3")
       .build()
 
-    assertDoesNotThrow{testS3Client.headBucket(headBucketRequest)}
+    assertDoesNotThrow {
+      testS3Client.headBucket(headBucketRequest)
+    }
   }
 }

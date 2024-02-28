@@ -23,7 +23,7 @@ class SQSIntegrationTests {
       .messageBody(messageBody)
       .build()
 
-    assertDoesNotThrow{
+    assertDoesNotThrow {
       testSqsClient.sendMessage(sendMessageRequest)
     }
   }
