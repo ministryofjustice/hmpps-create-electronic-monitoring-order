@@ -13,7 +13,6 @@ import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest
 import software.amazon.awssdk.services.s3.model.HeadBucketRequest
 
-
 @Testcontainers
 class S3IntegrationTests {
   companion object {

@@ -29,13 +29,14 @@ class SQSIntegrationTests {
     }
 
     lateinit var queueUrl: String
+
     @JvmStatic
     @BeforeAll
     fun setup() {
       val createQueueResponse = testSqsClient.createQueue(
         CreateQueueRequest.builder()
           .queueName("test-sqs")
-          .build()
+          .build(),
       )
 
       queueUrl = createQueueResponse.queueUrl()
