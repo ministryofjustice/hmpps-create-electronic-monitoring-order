@@ -1,22 +1,50 @@
 package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration
 
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.testcontainers.containers.localstack.LocalStackContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sqs.SqsClient
+import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest
-import java.net.URI
 
+@Testcontainers
 class SQSIntegrationTests {
-  private val testSqsClient: SqsClient = SqsClient.builder()
-    .endpointOverride(URI.create("http://localhost:4566"))
-    .region(Region.EU_WEST_1)
-    .build()
+
+  companion object {
+    @Container
+    val localStackContainer: LocalStackContainer =
+      LocalStackContainer(DockerImageName.parse("localstack/localstack:2.0.0"))
+        .withServices(LocalStackContainer.Service.SQS)
+
+    private val testSqsClient: SqsClient by lazy {
+      SqsClient.builder()
+        .endpointOverride(localStackContainer.getEndpointOverride(LocalStackContainer.Service.SQS))
+        .region(Region.of(localStackContainer.region))
+        .build()
+    }
+
+    lateinit var queueUrl: String
+    @JvmStatic
+    @BeforeAll
+    fun setup() {
+      val createQueueResponse = testSqsClient.createQueue(
+        CreateQueueRequest.builder()
+          .queueName("test-sqs")
+          .build()
+      )
+
+      queueUrl = createQueueResponse.queueUrl()
+    }
+  }
 
   @Test
   fun `Service can send a message to SQS`() {
-    val queueUrl = "http://localhost:4566/000000000000/cemo-test-sqs"
-    val messageBody = "Message Body"
+    val messageBody = "Test message"
 
     val sendMessageRequest = SendMessageRequest.builder()
       .queueUrl(queueUrl)
