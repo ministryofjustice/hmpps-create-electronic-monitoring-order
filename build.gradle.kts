@@ -19,6 +19,10 @@ dependencies {
 
   // junit modules
   testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
+
+  // testcontainers
+  testImplementation("org.testcontainers:junit-jupiter:1.19.4")
+  testImplementation("org.testcontainers:postgresql:1.19.6")
 }
 
 kotlin {
