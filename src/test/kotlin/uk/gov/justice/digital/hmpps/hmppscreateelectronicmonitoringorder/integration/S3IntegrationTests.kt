@@ -17,11 +17,10 @@ import software.amazon.awssdk.services.s3.model.HeadBucketRequest
 @Testcontainers
 class S3IntegrationTests {
   companion object {
-
     private const val BUCKET_NAME = "test-bucket"
 
     @Container
-    var localStackContainer: LocalStackContainer = LocalStackContainer(DockerImageName.parse("localstack/localstack:2.0.0"))
+    val localStackContainer: LocalStackContainer = LocalStackContainer(DockerImageName.parse("localstack/localstack:2.0.0"))
       .withServices(LocalStackContainer.Service.S3)
 
     val testS3Client: S3Client by lazy {
