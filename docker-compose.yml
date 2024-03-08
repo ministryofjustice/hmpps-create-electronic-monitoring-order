@@ -5,6 +5,13 @@ services:
       context: .
     network_mode: "host"
     container_name: hmpps-create-electronic-monitoring-order
+
+    ##############
+    depends_on:
+      - cemo-localstack
+      - cemo-database
+    ##############
+
     ports:
       - "8081:8080"
     healthcheck:
@@ -12,18 +19,42 @@ services:
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=dev
+    ###########
+      - SNS_ENDPOINT_URL=http://localhost:4566
+      - SPRING_PROFILES_ACTIVE=stdout,localstack,postgres
+      - AWS_ACCESS_KEY_ID=foobar
+      - AWS_SECRET_ACCESS_KEY=foobar
+      - AWS_DEFAULT_REGION=eu-west-2
+    ###########
 
-  localstack:
-    container_name: "localstack-cemo"
-    image: localstack/localstack
+  cemo-database:
+    image: postgres:16
+    networks:
+      - hmpps
+    container_name: cemo-database
+    restart: always
+    ports:
+      - "5430:5432"
+    environment:
+      - POSTGRES_PASSWORD=cemo-password
+      - POSTGRES_USER=cemo-user
+      - POSTGRES_DB=cemo-database
+
+  cemo-localstack:
+    image: localstack/localstack:3.2
+    networks:
+      - hmpps
+    container_name: cemo-localstack
     ports:
       - "127.0.0.1:4566:4566"            # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559"  # external services port range
     environment:
       # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
-      - MAIN_CONTAINER_NAME=localstack-cemo
+      ############
+      - SERVICES=sqs
       - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data/
+      - DEFAULT_REGION=eu-west-2
+      ############
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
