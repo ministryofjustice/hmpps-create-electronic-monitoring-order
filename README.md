@@ -34,8 +34,17 @@ This should run the webserver locally. You should be able to access it at `local
 ## Running Tests
 
 ### Local Testing
-Docker needs to be running before the tests are run.
-Run `docker-compose up` in the terminal.
+- Docker needs to be running before the tests are run:
+  - Run `docker-compose up` in the terminal.
+- LocalStack uses the AwsCredentialsProviderChain method to validate users. This means you need to have a set of AWS creds, but it doesn't matter what the values are:
+  - If you already have AWS CLI creds set up, this should just check they exist and it will be fine. If not... 
+  - Ensure you have a folder `.aws` in your user profile root, containing a file called `credentials`. This must contain the following at minumum:
+  ```
+  [default]
+  region=not-real-land
+  aws_access_key_id=ABC
+  aws_secret_access_key=123
+  ```
 
 ### Use of Testcontainers
 We considered use of testcontainers to instantiate and teardown containers (localstack and PotsgreSQL) but it was difficult to make these work with CircleCI.
