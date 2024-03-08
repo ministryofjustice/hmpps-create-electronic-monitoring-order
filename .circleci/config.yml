@@ -37,7 +37,7 @@ jobs:
       - hmpps/wait_till_ready_postgres
       - run:
           name: Set up AWS Credentials for integration testing
-          command: mkdir ~/.aws echo -e "[integration-tests]\naws_access_key_id=ABCABC\naws_secret_access_key=123123\n" > ~/.aws/credentials
+          command: mkdir ~/.aws && echo -e "[integration-tests]\naws_access_key_id=ABCABC\naws_secret_access_key=123123\n" > ~/.aws/credentials
       - run:
           command: ./gradlew check
       - save_cache:
