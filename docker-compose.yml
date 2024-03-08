@@ -34,7 +34,7 @@ services:
     container_name: cemo-database
     restart: always
     ports:
-      - "5430:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=cemo-password
       - POSTGRES_USER=cemo-user
