@@ -19,6 +19,7 @@ jobs:
       services: "sqs"
       postgres_tag: "16"
       localstack_tag: "3.2"
+# postgres_username sets both the username and the database name.
       postgres_username:
         "cemo-database"
       postgres_password:
