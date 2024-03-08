@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration.aws
+package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration
 
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.BeforeAll
@@ -33,7 +33,6 @@ class SQSIntegrationTests {
 
   @Test
   fun `Service can send a message to SQS`() {
-//    val queueUrl = "http://localhost:4566/000000000000/cemo-test-sqs"
     val messageBody = "Message Body"
 
     val sendMessageRequest = SendMessageRequest.builder()
