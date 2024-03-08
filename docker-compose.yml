@@ -36,8 +36,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=cemo-password
-      - POSTGRES_USER=cemo-user
+      - POSTGRES_PASSWORD=cemo-database
+      - POSTGRES_USER=cemo-database
       - POSTGRES_DB=cemo-database
 
   cemo-localstack:
