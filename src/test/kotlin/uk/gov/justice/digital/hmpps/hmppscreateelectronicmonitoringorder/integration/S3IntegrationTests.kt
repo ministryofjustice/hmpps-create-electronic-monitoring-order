@@ -1,39 +1,38 @@
 package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integration
 
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.testcontainers.containers.localstack.LocalStackContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.utility.DockerImageName
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest
+import software.amazon.awssdk.services.s3.model.DeleteBucketRequest
 import software.amazon.awssdk.services.s3.model.HeadBucketRequest
+import java.net.URI
 
-@Testcontainers
 class S3IntegrationTests {
+
   companion object {
-    private const val BUCKET_NAME = "test-bucket"
 
-    @Container
-    val localStackContainer: LocalStackContainer = LocalStackContainer(DockerImageName.parse("localstack/localstack:2.0.0"))
-      .withServices(LocalStackContainer.Service.S3)
+    private val testS3Client: S3Client = S3Client.builder()
+      .forcePathStyle(true)
+      .endpointOverride(URI.create("http://localhost:4566"))
+      .region(Region.EU_WEST_1)
+      .build()
 
-    val testS3Client: S3Client by lazy {
-      S3Client.builder()
-        .endpointOverride(localStackContainer.getEndpointOverride(LocalStackContainer.Service.S3))
-        .credentialsProvider { AwsBasicCredentials.create(localStackContainer.accessKey, localStackContainer.secretKey) }
-        .region(Region.of(localStackContainer.region))
-        .build()
-    }
+    private const val BUCKET_NAME = "cemo-s3"
 
     @JvmStatic
     @BeforeAll
     fun createBucket() {
       testS3Client.createBucket(CreateBucketRequest.builder().bucket(BUCKET_NAME).build())
+    }
+
+    @JvmStatic
+    @AfterAll
+    fun deleteBucket() {
+      testS3Client.deleteBucket(DeleteBucketRequest.builder().bucket(BUCKET_NAME).build())
     }
   }
 
@@ -43,8 +42,6 @@ class S3IntegrationTests {
       .bucket(BUCKET_NAME)
       .build()
 
-    assertDoesNotThrow {
-      testS3Client.headBucket(headBucketRequest)
-    }
+    assertDoesNotThrow { testS3Client.headBucket(headBucketRequest) }
   }
 }

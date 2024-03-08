@@ -51,7 +51,7 @@ services:
     environment:
       # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
       ############
-      - SERVICES=sqs
+      - SERVICES=sqs,s3
       - DEBUG=1
       - DEFAULT_REGION=eu-west-2
       ############

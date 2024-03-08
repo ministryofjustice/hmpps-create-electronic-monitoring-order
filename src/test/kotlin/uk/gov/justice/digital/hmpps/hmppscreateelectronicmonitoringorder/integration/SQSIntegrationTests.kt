@@ -3,30 +3,18 @@ package uk.gov.justice.digital.hmpps.hmppscreateelectronicmonitoringorder.integr
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.testcontainers.containers.localstack.LocalStackContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
-import org.testcontainers.utility.DockerImageName
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sqs.SqsClient
 import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest
+import java.net.URI
 
-@Testcontainers
 class SQSIntegrationTests {
-
   companion object {
-    @Container
-    val localStackContainer: LocalStackContainer =
-      LocalStackContainer(DockerImageName.parse("localstack/localstack:2.0.0"))
-        .withServices(LocalStackContainer.Service.SQS)
-
-    private val testSqsClient: SqsClient by lazy {
-      SqsClient.builder()
-        .endpointOverride(localStackContainer.getEndpointOverride(LocalStackContainer.Service.SQS))
-        .region(Region.of(localStackContainer.region))
-        .build()
-    }
+    private val testSqsClient: SqsClient = SqsClient.builder()
+      .endpointOverride(URI.create("http://localhost:4566"))
+      .region(Region.EU_WEST_1)
+      .build()
 
     lateinit var queueUrl: String
 
@@ -45,7 +33,7 @@ class SQSIntegrationTests {
 
   @Test
   fun `Service can send a message to SQS`() {
-    val messageBody = "Test message"
+    val messageBody = "Message Body"
 
     val sendMessageRequest = SendMessageRequest.builder()
       .queueUrl(queueUrl)

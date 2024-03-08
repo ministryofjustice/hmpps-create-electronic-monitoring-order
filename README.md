@@ -31,6 +31,18 @@
 
 This should run the webserver locally. You should be able to access it at `localhost:8080`.
 
+## Running Tests
+
+### Local Testing
+Docker needs to be running before the tests are run.
+Run `docker-compose up` in the terminal.
+
+### Use of Testcontainers
+We considered use of testcontainers to instantiate and teardown containers (localstack and PotsgreSQL) but it was difficult to make these work with CircleCI.
+Instead we've used a pattern common to other MoJ projects:
+- Locally, the environment is manually created using Docker.
+- For testing in CircleCI, the MoJ executor [java_localstack_postgres](https://github.com/ministryofjustice/hmpps-circleci-orb/blob/main/src/executors/java_localstack_postgres.yml) is used in config.yaml to create the testing environment, including localstack and postgreSQL containers.
+
 ## Accessing the deployed webservice
 
 Once changes to this repo have been reviewed and merged into main, the service will be automatically redeployed.
