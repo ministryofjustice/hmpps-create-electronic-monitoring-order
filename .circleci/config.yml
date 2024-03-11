@@ -17,7 +17,7 @@ jobs:
 # Executor source: https://github.com/ministryofjustice/hmpps-circleci-orb/blob/main/src/executors/java_localstack_postgres.yml
       name: hmpps/java_localstack_postgres
       jdk_tag: "21.0"
-      services: "sqs"
+      services: "sqs,s3"
       postgres_tag: "16"
       localstack_tag: "3.2"
 # postgres_username sets both the username and the database name.
